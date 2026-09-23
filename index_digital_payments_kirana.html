@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Digital Payments Usage and Security Concerns in Local Kirana Stores</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+:root{
+ --bg:#07111f;--panel:#0d1a2d;--panel2:#101f35;--text:#eef5ff;--muted:#9aabc1;
+ --blue:#5b8cff;--cyan:#35d7e8;--green:#36d39a;--yellow:#ffc857;--red:#ff6b7a;
+ --line:rgba(255,255,255,.09);--shadow:0 22px 70px rgba(0,0,0,.28)
+}
+*{box-sizing:border-box}html{scroll-behavior:smooth}
+body{margin:0;font-family:Inter,Segoe UI,Arial,sans-serif;background:
+radial-gradient(circle at 10% 0%,rgba(91,140,255,.18),transparent 32%),
+radial-gradient(circle at 90% 10%,rgba(53,215,232,.12),transparent 28%),var(--bg);color:var(--text)}
+body:before{content:"";position:fixed;inset:0;pointer-events:none;background-image:linear-gradient(rgba(255,255,255,.018) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.018) 1px,transparent 1px);background-size:38px 38px;mask-image:linear-gradient(to bottom,black,transparent 80%);z-index:-1}
+a{color:inherit}.wrap{max-width:1240px;margin:auto;padding:0 22px}
+header{position:sticky;top:0;z-index:50;background:rgba(7,17,31,.78);backdrop-filter:blur(18px);border-bottom:1px solid var(--line)}
+.nav{height:72px;display:flex;align-items:center;justify-content:space-between}.brand{display:flex;align-items:center;gap:11px;font-weight:900;letter-spacing:-.03em;font-size:16px;max-width:900px}
+.logo{width:38px;height:38px;border-radius:12px;background:linear-gradient(135deg,var(--blue),var(--cyan));display:grid;place-items:center;color:#07111f;font-weight:1000;box-shadow:0 10px 30px rgba(53,215,232,.2)}
+nav{display:flex;gap:8px}nav a{text-decoration:none;color:var(--muted);padding:9px 12px;border-radius:9px;font-size:13px;font-weight:700}nav a:hover{background:rgba(255,255,255,.06);color:#fff}
+.hero{padding:75px 0 44px}.hero-grid{display:grid;grid-template-columns:1.45fr .8fr;gap:26px;align-items:center}
+.kicker{display:inline-flex;gap:8px;align-items:center;color:#b9caff;font-size:12px;font-weight:900;text-transform:uppercase;letter-spacing:.13em}.pulse{width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 0 7px rgba(54,211,154,.1)}
+h1{font-size:clamp(42px,6.5vw,78px);line-height:.98;letter-spacing:-.055em;margin:17px 0 20px;max-width:900px}
+.gradient{background:linear-gradient(90deg,#fff 10%,#93b6ff 50%,#57e6ef);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero p{max-width:760px;color:var(--muted);font-size:18px;line-height:1.7}.actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:28px}
+.btn{border:1px solid var(--line);padding:13px 18px;border-radius:12px;text-decoration:none;font-weight:850;font-size:14px;cursor:pointer;background:rgba(255,255,255,.04);color:#fff}.btn.primary{background:linear-gradient(135deg,var(--blue),#806cff);border:0;box-shadow:0 15px 35px rgba(91,140,255,.25)}.btn:hover{transform:translateY(-1px)}
+.hero-card{background:linear-gradient(160deg,rgba(255,255,255,.09),rgba(255,255,255,.025));border:1px solid var(--line);border-radius:26px;padding:24px;box-shadow:var(--shadow)}
+.hero-card .big{font-size:62px;font-weight:950;letter-spacing:-.06em}.hero-card p{font-size:13px;margin:4px 0 18px}.mini-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}.mini{padding:13px;background:rgba(0,0,0,.18);border-radius:14px;border:1px solid var(--line)}.mini b{display:block;font-size:20px}.mini span{color:var(--muted);font-size:11px}
+.section{padding:35px 0}.section-head{display:flex;justify-content:space-between;align-items:end;margin-bottom:18px;gap:15px}.section-head h2{font-size:28px;margin:0;letter-spacing:-.03em}.section-head p{color:var(--muted);margin:6px 0 0;font-size:13px}
+.status{display:inline-flex;align-items:center;gap:8px;border:1px solid rgba(54,211,154,.22);background:rgba(54,211,154,.08);color:#78efc0;border-radius:999px;padding:8px 11px;font-size:11px;font-weight:800}
+.kpis{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}.kpi{padding:18px;border:1px solid var(--line);border-radius:18px;background:linear-gradient(145deg,rgba(255,255,255,.065),rgba(255,255,255,.025));box-shadow:var(--shadow)}.kpi label{color:var(--muted);font-size:11px;font-weight:750}.kpi strong{display:block;font-size:29px;margin:8px 0 4px;letter-spacing:-.04em}.kpi small{color:var(--muted);font-size:11px}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}.card{border:1px solid var(--line);border-radius:21px;background:linear-gradient(145deg,rgba(255,255,255,.06),rgba(255,255,255,.025));padding:20px;box-shadow:var(--shadow)}.card h3{margin:0;font-size:16px}.card .sub{color:var(--muted);font-size:12px;margin:6px 0 15px}.chart{height:290px;position:relative}.wide{grid-column:1/-1}
+.insights{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.insight{padding:21px;border-radius:19px;border:1px solid var(--line);background:rgba(255,255,255,.045)}.tag{font-size:10px;font-weight:900;text-transform:uppercase;letter-spacing:.1em;color:var(--cyan)}.insight b{font-size:25px;display:block;margin:10px 0 7px}.insight p{color:var(--muted);line-height:1.55;font-size:13px;margin:0}
+.controls{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:15px}.filter{padding:9px 12px;border-radius:10px;border:1px solid var(--line);background:rgba(255,255,255,.04);color:#b8c4d8;cursor:pointer;font-weight:750;font-size:12px}.filter.active{background:#315efb;color:#fff;border-color:#315efb}
+.form-card{border:1px solid var(--line);border-radius:24px;overflow:hidden;background:#fff;box-shadow:var(--shadow)}iframe{display:block;width:100%;height:920px;border:0}
+.note{border:1px solid rgba(255,200,87,.18);background:rgba(255,200,87,.06);color:#e8d59b;border-radius:14px;padding:13px 15px;font-size:12px;line-height:1.6}
+footer{padding:40px 0 55px;color:#6f8098;font-size:12px;text-align:center}
+.reveal{animation:up .7s ease both}@keyframes up{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+@media(max-width:1000px){.hero-grid{grid-template-columns:1fr}.kpis{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:720px){nav{display:none}.brand{font-size:13px;line-height:1.2}.wrap{padding:0 15px}.hero{padding-top:48px}.grid{grid-template-columns:1fr}.insights{grid-template-columns:1fr}.kpis{grid-template-columns:1fr 1fr}.wide{grid-column:auto}.section{padding:26px 0}.hero p{font-size:16px}.hero-card .big{font-size:50px}}
+</style>
+</head>
+<body>
+<header><div class="wrap nav">
+<div class="brand"><div class="logo">₹</div><span>Digital Payments Usage and Security Concerns in Local Kirana Stores</span></div>
+<nav><a href="#dashboard">Dashboard</a><a href="#behaviour">Behaviour</a><a href="#security">Security</a><a href="#survey">Survey</a></nav>
+</div></header>
+
+<section class="hero"><div class="wrap hero-grid">
+<div class="reveal">
+<div class="kicker"><span class="pulse"></span> Digital payments × kirana shopping</div>
+<h1>Digital Payments Usage and <span class="gradient">Security Concerns</span> in Local Kirana Stores</h1>
+<p>A polished survey intelligence dashboard showing how respondents pay, what makes digital payments convenient, where transactions fail, and which security concerns matter most.</p>
+<div class="actions"><a class="btn primary" href="#dashboard">Explore dashboard ↓</a><a class="btn" href="#survey">Take the survey</a></div>
+</div>
+<div class="hero-card reveal">
+<div style="color:#8ea1bb;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.12em">Current sample</div>
+<div class="big" id="heroTotal">113</div><p>responses analyzed</p>
+<div class="mini-row"><div class="mini"><b id="heroDigital">84.1%</b><span>use digital at least sometimes</span></div><div class="mini"><b id="heroUpi">89.4%</b><span>main method is UPI / QR</span></div></div>
+</div>
+</div></section>
+
+<main class="wrap" id="dashboard">
+<section class="section">
+<div class="section-head"><div><h2>Command center</h2><p>The numbers that summarize the current survey.</p></div><span class="status"><span class="pulse"></span> Dashboard ready</span></div>
+<div class="kpis">
+<div class="kpi"><label>RESPONSES</label><strong id="total">113</strong><small>survey records</small></div>
+<div class="kpi"><label>DIGITAL USAGE</label><strong id="useRate">84.1%</strong><small>at least sometimes</small></div>
+<div class="kpi"><label>DIGITAL PREFERENCE</label><strong id="prefRate">68.1%</strong><small>prefer digital</small></div>
+<div class="kpi"><label>SATISFACTION</label><strong id="satRate">75.2%</strong><small>satisfied / very satisfied</small></div>
+<div class="kpi"><label>SECURITY CONCERN</label><strong id="secRate">62.8%</strong><small>concerned / very concerned</small></div>
+</div>
+</section>
+
+<section class="section" id="behaviour">
+<div class="section-head"><div><h2>Payment behaviour</h2><p>Who responded and how they actually use digital payments.</p></div></div>
+<div class="controls" id="chartFilters"><button class="filter active" data-mode="all">All insights</button><button class="filter" data-mode="adoption">Adoption</button><button class="filter" data-mode="experience">Experience</button><button class="filter" data-mode="risk">Risk</button></div>
+<div class="grid">
+<div class="card reveal" data-group="adoption"><h3>Age group</h3><div class="sub">Respondent distribution</div><div class="chart"><canvas id="ageChart"></canvas></div></div>
+<div class="card reveal" data-group="adoption"><h3>Occupation</h3><div class="sub">Respondent profile</div><div class="chart"><canvas id="occChart"></canvas></div></div>
+<div class="card reveal" data-group="adoption"><h3>Digital payment usage</h3><div class="sub">Frequency at local kirana stores</div><div class="chart"><canvas id="usageChart"></canvas></div></div>
+<div class="card reveal" data-group="adoption"><h3>Most-used payment method</h3><div class="sub">Primary method selected by respondents</div><div class="chart"><canvas id="methodChart"></canvas></div></div>
+<div class="card reveal" data-group="adoption"><h3>Main reason for digital payments</h3><div class="sub">The strongest adoption drivers</div><div class="chart"><canvas id="reasonChart"></canvas></div></div>
+<div class="card reveal" data-group="experience"><h3>Digital vs cash preference</h3><div class="sub">Stated payment preference</div><div class="chart"><canvas id="prefChart"></canvas></div></div>
+</div>
+</section>
+
+<section class="section">
+<div class="section-head"><div><h2>Experience layer</h2><p>Convenience and satisfaction beyond simple adoption.</p></div></div>
+<div class="grid">
+<div class="card reveal" data-group="experience"><h3>Shopping convenience</h3><div class="sub">Digital payment makes shopping more convenient</div><div class="chart"><canvas id="convChart"></canvas></div></div>
+<div class="card reveal" data-group="experience"><h3>Service satisfaction</h3><div class="sub">Overall satisfaction with digital payment services</div><div class="chart"><canvas id="satChart"></canvas></div></div>
+<div class="card reveal" data-group="risk"><h3>Failed digital payments</h3><div class="sub">Frequency of transaction failures</div><div class="chart"><canvas id="failChart"></canvas></div></div>
+<div class="card reveal" data-group="risk"><h3>Most frequent problem</h3><div class="sub">Operational friction reported by respondents</div><div class="chart"><canvas id="problemChart"></canvas></div></div>
+</div>
+</section>
+
+<section class="section" id="security">
+<div class="section-head"><div><h2>Security & trust</h2><p>Where confidence meets real-world risk.</p></div></div>
+<div class="grid">
+<div class="card reveal" data-group="risk"><h3>Security concern level</h3><div class="sub">How concerned respondents are</div><div class="chart"><canvas id="securityChart"></canvas></div></div>
+<div class="card reveal" data-group="risk"><h3>Experienced payment fraud</h3><div class="sub">Self-reported fraud experience</div><div class="chart"><canvas id="fraudChart"></canvas></div></div>
+<div class="card wide reveal" data-group="risk"><h3>Security threats of greatest concern</h3><div class="sub">UPI fraud, fake QR codes, links and social-engineering threats</div><div class="chart"><canvas id="threatChart"></canvas></div></div>
+</div>
+</section>
+
+<section class="section">
+<div class="section-head"><div><h2>What stands out</h2><p>Three findings worth taking into your presentation.</p></div></div>
+<div class="insights">
+<div class="insight"><span class="tag">Adoption</span><b>UPI + QR dominate</b><p>89.4% selected UPI or QR Code as their main digital payment method in this sample.</p></div>
+<div class="insight"><span class="tag">Reliability</span><b>Failures are common</b><p>89.4% reported experiencing failed digital payments at least rarely, with poor internet the most frequent issue.</p></div>
+<div class="insight"><span class="tag">Trust</span><b>Security needs attention</b><p>62.8% are concerned or very concerned about digital payment security, while 43.4% encountered suspicious calls, SMS or links.</p></div>
+</div>
+<br><div class="note"><b>Research note:</b> the sample is student-heavy and concentrated among younger respondents. Treat these percentages as findings from this survey sample rather than as a population-wide estimate.</div>
+</section>
+
+<section class="section" id="survey">
+<div class="section-head"><div><h2>Take the survey</h2><p>Everything stays inside this website.</p></div></div>
+<div class="form-card"><iframe src="https://docs.google.com/forms/d/e/1FAIpQLSf1GkCOv_R2VbZKu0TPfGEdCsTfRn189d03EfYSQxIZiX3xWQ/viewform?embedded=true" loading="lazy">Loading…</iframe></div>
+</section>
+</main>
+<footer>Digital Payments Usage and Security Concerns in Local Kirana Stores • Responsive single-page experience</footer>
+
+<script>
+const DATA={
+age:{labels:["18–25","Below 18","26–35","36–45","Above 45"],values:[71,19,11,7,5]},
+occ:{labels:["Students","Employees","Business / self-employed","Homemakers"],values:[76,24,7,6]},
+usage:{labels:["Always","Often","Sometimes","Rarely","Never"],values:[38,22,35,13,5]},
+method:{labels:["UPI","QR Code","Other","Credit Card","Debit Card","Mobile Wallet"],values:[52,49,7,3,1,1]},
+reason:{labels:["Fast payment","No need to carry cash","Convenience","Expense tracking","Other","Cashback / offers"],values:[39,37,24,6,5,2]},
+pref:{labels:["Strongly prefer digital","Prefer digital","No preference","Prefer cash","Strongly prefer cash"],values:[36,41,23,10,3]},
+conv:{labels:["Agree","Strongly agree","Neutral","Disagree","Strongly disagree"],values:[47,28,32,4,2]},
+sat:{labels:["Satisfied","Very satisfied","Neutral","Dissatisfied","Very dissatisfied"],values:[55,30,24,3,1]},
+fail:{labels:["Sometimes","Rarely","Frequently","Never"],values:[44,39,18,12]},
+problem:{labels:["Poor internet","Payment failure","No problem","Pending / delayed","Debited, not received","Refund delay","QR not working"],values:[39,26,16,12,11,5,4]},
+security:{labels:["Very concerned","Concerned","Neutral","Not concerned","Slightly concerned"],values:[35,36,37,4,1]},
+fraud:{labels:["No","Yes","Not sure"],values:[63,28,22]},
+threat:{labels:["UPI fraud","Fake QR","Fake payment link","Fraud calls / messages","OTP theft","UPI PIN theft","Unauthorized transaction","Fake screenshot"],values:[23,22,20,17,12,8,8,3]}
+};
+const charts={};
+const palette=["#5b8cff","#35d7e8","#36d39a","#ffc857","#ff6b7a","#8c7bff","#ff8f70","#7ea3c8"];
+function mk(id,key,type="bar",axis="x"){
+ const d=DATA[key],ctx=document.getElementById(id);
+ charts[id]=new Chart(ctx,{type,data:{labels:d.labels,datasets:[{data:d.values,backgroundColor:palette,borderWidth:0,borderRadius:8}]},
+ options:{responsive:true,maintainAspectRatio:false,indexAxis:axis,plugins:{legend:{display:type==="doughnut",position:"bottom",labels:{color:"#aab9ce",font:{size:10}}},tooltip:{callbacks:{label:c=>" "+c.raw+" responses"}}},
+ scales:type==="doughnut"?{}:{x:{grid:{color:"rgba(255,255,255,.05)"},ticks:{color:"#8191a8",font:{size:10}}},y:{beginAtZero:true,grid:{color:"rgba(255,255,255,.05)"},ticks:{color:"#8191a8",precision:0,font:{size:10}}}}}});
+}
+mk("ageChart","age");mk("occChart","occ");mk("usageChart","usage");mk("methodChart","method","doughnut");mk("reasonChart","reason");mk("prefChart","pref");mk("convChart","conv");mk("satChart","sat");mk("failChart","fail");mk("problemChart","problem","bar","y");mk("securityChart","security");mk("fraudChart","fraud","doughnut");mk("threatChart","threat","bar","y");
+
+function pct(n,d){return (n/d*100).toFixed(1)+"%"}
+const total=113;
+document.getElementById("total").textContent=total;
+document.getElementById("heroTotal").textContent=total;
+document.getElementById("useRate").textContent=pct(38+22+35,total);
+document.getElementById("heroDigital").textContent=pct(38+22+35,total);
+document.getElementById("prefRate").textContent=pct(36+41,total);
+document.getElementById("satRate").textContent=pct(55+30,total);
+document.getElementById("secRate").textContent=pct(35+36,total);
+document.getElementById("heroUpi").textContent=pct(52+49,total);
+
+document.querySelectorAll(".filter").forEach(btn=>btn.addEventListener("click",()=>{
+ document.querySelectorAll(".filter").forEach(x=>x.classList.remove("active"));btn.classList.add("active");
+ const mode=btn.dataset.mode;
+ document.querySelectorAll("[data-group]").forEach(el=>el.style.display=mode==="all"||el.dataset.group===mode?"block":"none");
+}));
+
+/* Optional live endpoint: set this to a JSON endpoint generated from the response Sheet. */
+const LIVE_DATA_URL="";
+async function refreshLive(){
+ if(!LIVE_DATA_URL)return;
+ try{
+  const r=await fetch(LIVE_DATA_URL,{cache:"no-store"});if(!r.ok)throw Error(r.status);
+  const incoming=await r.json();
+  Object.keys(DATA).forEach(k=>{if(incoming[k]){DATA[k]=incoming[k];}});
+  const map={ageChart:"age",occChart:"occ",usageChart:"usage",methodChart:"method",reasonChart:"reason",prefChart:"pref",convChart:"conv",satChart:"sat",failChart:"fail",problemChart:"problem",securityChart:"security",fraudChart:"fraud",threatChart:"threat"};
+  Object.entries(map).forEach(([id,k])=>{charts[id].data.labels=DATA[k].labels;charts[id].data.datasets[0].data=DATA[k].values;charts[id].update()});
+ }catch(e){console.log("Live refresh unavailable",e)}
+}
+refreshLive();setInterval(refreshLive,30000);
+</script>
+</body>
+</html>
